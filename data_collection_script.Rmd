@@ -1,0 +1,252 @@
+---
+title: "Data Collection Script for License Plate Recognition"
+author: "Mohamed Mohamed Salem 22032"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+#### Introduction to the Project
+The 2024 National Data Science Competition by RIM-AI focuses on enhancing license plate recognition in Mauritania. This pioneering computer vision challenge invites data scientists and AI enthusiasts to develop algorithms aimed at improving the accuracy and efficiency of recognizing Mauritanian license plates. The competition is divided into two parts: 'Data Collection' and 'Data Science'. This report documents the data collection process, specifically focusing on web scraping images from the ["Vourssa"](https://www.voursa.com/index.cfm?gct=1&sct=11&gv=13) website using R.
+
+#### Objective
+The primary objective of this work is to gather diverse and high-quality images of vehicles, which will be used to develop and train license plate recognition algorithms. This involves scraping images from the [Vourssa](https://www.voursa.com/index.cfm?gct=1&sct=11&gv=13) website, which hosts numerous vehicle announcements.
+
+#### Steps in the Code
+
+#### Scraping Vourssa :
+##### Step 1: Scraping Individual Announcement Page for Images
+
+```{r, eval = FALSE}
+# Load necessary libraries
+library(rvest)
+
+# Define the URL of the webpage containing the images
+url <- "https://www.voursa.com/annonces.cfm?pdtid=337515&adtre=Range%20Rover%202014"
+
+# Read the HTML content of the webpage
+page <- read_html(url)
+
+# Extract all image URLs from the webpage
+image_urls <- page %>% 
+  html_nodes("img[src]") %>%    
+  html_attr("src")
+
+# Make the image URLs absolute
+image_urls <- url_absolute(image_urls, url)
+
+# Download and save images from web004 until the last one
+for (i in 4:length(image_urls)) {
+  filename <- paste0("web", sprintf("%03d", i), ".png")
+  download.file(image_urls[i], destfile = filename, mode = "wb")
+}
+
+# Print success message
+cat("Images saved successfully\n")
+
+
+```
+
+This section of the code focuses on extracting image URLs from a single vehicle announcement page on Vourssa and downloading the images.
+
+##### Step 2: Checking URLs for Scraping All Announcements on One Page
+```{r, eval = FALSE}
+# Load necessary libraries
+library(rvest)
+
+# Define the URL of the webpage
+url <- "https://www.voursa.com/voitures-vendues.cfm"
+
+# Read the HTML content of the webpage
+page <- read_html(url)
+
+# Extract all <a> tags
+links <- page %>% html_nodes("a")
+
+# Filter links to include only those with href starting with "annonces.cfm?"
+valid_links <- links[grepl("^/annonces.cfm?", html_attr(links, "href"))]
+
+# Extract href attribute from valid links
+valid_urls <- html_attr(valid_links, "href")
+
+# Print the valid URLs
+
+print(valid_urls)
+
+```
+This section checks the URLs for all vehicle announcements on a single page, filtering out the relevant links to vehicle detail pages.
+
+##### Step 3: Scraping All Announcements and Relevant Images from Entire Page
+ 
+```{r, eval = FALSE}
+# Define a function to download images from a given URL
+download_images <- function(url) {
+  # Read the HTML content of the webpage
+  page <- read_html(url)
+  
+  # Extract all <a> tags
+  links <- page %>% html_nodes("a")
+  
+  # Filter links to include only those with href starting with "annonces.cfm?"
+  valid_links <- links[grepl("^/annonces.cfm?", html_attr(links, "href"))]
+  
+  # Extract href attribute from valid links
+  valid_urls <- html_attr(valid_links, "href")
+  
+  # Initialize counter for image filenames
+  image_counter <- 1
+  
+  # Iterate through each valid URL
+  for (anonce_url in valid_urls) {
+    # URL-encode the announcement URL
+    encoded_anonce_url <- URLencode(anonce_url)
+  
+    # Concatenate base URL with the encoded announcement URL
+    full_url <- paste0("https://www.voursa.com/", encoded_anonce_url)
+    cat("Processing URL:", full_url, "\n")
+    
+    # Read the HTML content of the announcement URL
+    anonce_page <- read_html(full_url)
+    
+    # Extract all image URLs from the announcement webpage
+    image_nodes <- anonce_page %>% html_nodes("img[src]") 
+    
+    # Filter image nodes based on alt attribute containing description
+    relevant_images <- image_nodes[!is.na(html_attr(image_nodes, "alt"))]
+    cat("Number of relevant images:", length(relevant_images), "\n")
+    
+    # Make the image URLs absolute
+    image_urls <- url_absolute(html_attr(relevant_images, "src"), url)
+    
+    # Download and save all the relevant images
+    for (i in seq_along(image_urls)) {
+      # Generate filename with counter
+      filename <- paste0("web_", sprintf("%03d", image_counter), ".png")
+      
+      # Add error handling to handle unsuccessful downloads
+      tryCatch({
+        GET(image_urls[i], write_disk(filename))
+      }, error = function(e) {
+        cat("Error downloading image:", e$message, "\n")
+      })
+      
+      # Increment image counter
+      image_counter <- image_counter + 1
+    }
+  }
+}
+
+# Example URL to scrape images from
+url <- "https://www.voursa.com/voitures-vendues.cfm"
+
+# Apply the function to the given URL
+download_images(url)
+
+ 
+
+```
+
+This code defines a function to scrape and download images from all vehicle announcement pages on a given webpage.
+
+##### Step 4: Scraping All Announcements and Images from Multiple Pages
+  
+* The last version of code 
+
+```{r, eval = FALSE}
+# Load necessary libraries
+library(rvest)
+library(httr)  # Add this line to load the httr package
+
+# Define a function to download images from all pages
+download_images_all_pages <- function(base_url, total_pages) {
+  # Initialize counter for image filenames
+  image_counter <- 1
+  
+  # List of alt attributes to exclude
+  excluded_alt <- c("v_logo", "TOYOTA", "VS", "toyota", "Share on Facebook", "rss-icon","voursa boutiques","Menu","voursa","")
+  
+  # Iterate through each page
+  for (page_num in 1:total_pages) {
+    # Generate the URL for the current page
+    page_url <- ifelse(page_num == 1, base_url, paste0(base_url, "&PN=", page_num))
+    
+    # Read the HTML content of the webpage
+    page <- read_html(page_url)
+    
+    # Extract all <a> tags
+    links <- page %>% html_nodes("a")
+    
+    # Filter links to include only those with href starting with "annonces.cfm?"
+    valid_links <- links[grepl("^/annonces.cfm?", html_attr(links, "href"))]
+    
+    # Extract href attribute from valid links
+    valid_urls <- html_attr(valid_links, "href")
+    
+    # Iterate through each valid URL
+    for (anonce_url in valid_urls) {
+      # URL-encode the announcement URL
+      encoded_anonce_url <- URLencode(anonce_url)
+    
+      # Concatenate base URL with the encoded announcement URL
+      full_url <- paste0("https://www.voursa.com/", encoded_anonce_url)
+      cat("Processing URL:", full_url, "\n")
+      
+      # Read the HTML content of the announcement URL
+      anonce_page <- read_html(full_url)
+      
+      # Extract all image URLs from the announcement webpage
+      image_nodes <- anonce_page %>% html_nodes("img[src]") 
+      
+      # Filter image nodes based on alt attribute not containing excluded values
+      relevant_images <- image_nodes[!html_attr(image_nodes, "alt") %in% excluded_alt]
+      cat("Number of relevant images:", length(relevant_images), "\n")
+      
+      # Make the image URLs absolute
+      image_urls <- url_absolute(html_attr(relevant_images, "src"), page_url)
+      
+      # Download and save all the relevant images
+      for (i in seq_along(image_urls)) {
+        # Generate filename with counter
+        filename <- paste0("web_", sprintf("%03d", image_counter), ".png")
+        
+        # Add error handling to handle unsuccessful downloads
+        tryCatch({
+          GET(image_urls[i], write_disk(filename))
+        }, error = function(e) {
+          cat("Error downloading image:", e$message, "\n")
+        })
+        
+        # Increment image counter
+        image_counter <- image_counter + 1
+      }
+      
+      # Return message after each announcement is successfully processed
+      cat("All images in this announcement were saved successfully\n")
+    }
+  }
+}
+
+# Example base URL and total number of pages
+base_url <- "https://www.voursa.com/index.cfm?gct=1&sct=11&gv=13"
+total_pages <- 26 # Assuming there are 26 pages
+
+# Apply the function to scrape images from all pages
+# 8481 pictures
+download_images_all_pages(base_url, total_pages)
+```
+ 
+This final section of the code aims to scrape and download images from all vehicle announcement pages across multiple pages on the  [Vourssa](https://www.voursa.com/index.cfm?gct=1&sct=11&gv=13) website.
+
+* Results and Challenges
+
+
+After scraping 26 pages, a total of 8481 images were downloaded. However, following a thorough cleaning process, only 350 images were deemed relevant and useful for the license plate recognition project.
+
+Challenges encountered during this process included:
+
+* Slow internet connection, which significantly delayed the image download process.
+* Many announcements lacked vehicle images, leading to a lower yield of relevant data.
+* Variability in the quality and relevance of the images extracted.
+
+
+
+By overcoming these challenges, we successfully curated a Dataset that will be instrumental in developing and refining license plate recognition algorithms for the competition. 
