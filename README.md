@@ -37,21 +37,23 @@ Ensure you have the following installed:
 ```bash
 pip install selenium beautifulsoup4 requests
 For R dependencies, install rvest:
-
+```
 R
 Copier le code
 install.packages("rvest")
 Steps to Run the Code
 Clone the repository:
 
-bash
+```bash
 Copier le code
 git clone https://github.com/MohamedSalem32/Web_Scraping_Python-R.git
+```
 Change directory to the project folder:
 
-bash
+```bash
 Copier le code
 cd Web_Scraping_Python-R
+```
 For Python:
 
 Open the web_scraping.py file and enter your Facebook login credentials:
