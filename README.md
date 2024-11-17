@@ -78,10 +78,11 @@ source('web_scraping.R')
 The images will be downloaded and saved in the ws_data_fb directory.
 
 Code Structure
-web_scraping.py: Main Python script for web scraping Facebook Marketplace for vehicle listings.
-web_scraping.R: Main R script for web scraping Facebook Marketplace for vehicle listings.
-output/: Folder where downloaded images will be stored.
-README.md: This documentation file.
+- web_scraping.py: Main Python script for web scraping Facebook Marketplace for vehicle listings.
+- web_scraping.R: Main R script for web scraping Facebook Marketplace for vehicle listings.
+- output/: Folder where downloaded images will be stored.
+- README.md: This documentation file.
+
 Contributing
 Feel free to fork the repository and contribute by creating pull requests. If you encounter any issues or bugs, please open an issue in the repository.
 
