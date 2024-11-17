@@ -36,44 +36,45 @@ Ensure you have the following installed:
 
 ```bash
 pip install selenium beautifulsoup4 requests
+```
 For R dependencies, install rvest:
 
-R
-Copier le code
+```R
 install.packages("rvest")
+```
 Steps to Run the Code
 Clone the repository:
 
-bash
-Copier le code
+```bash
 git clone https://github.com/MohamedSalem32/Web_Scraping_Python-R.git
+```
 Change directory to the project folder:
 
-bash
-Copier le code
+```bash
 cd Web_Scraping_Python-R
+```
 For Python:
 
-Open the web_scraping.py file and enter your Facebook login credentials:
+Open the `web_scraping.py` file and enter your Facebook login credentials:
 
-python
-Copier le code
+```python
 username = 'your_email'
 password = 'your_facebook_password'
+```
 Run the script to start scraping vehicle listings from Facebook Marketplace:
 
-bash
-Copier le code
+```bash
 python web_scraping.py
+```
 For R:
 
 Open the web_scraping.R file and enter your Facebook login credentials.
 
 Run the script to start scraping the data in R:
 
-R
-Copier le code
+```R
 source('web_scraping.R')
+```
 The images will be downloaded and saved in the ws_data_fb directory.
 
 Code Structure
@@ -92,7 +93,8 @@ Selenium: For automating web browsing.
 BeautifulSoup: For parsing HTML data (Python).
 rvest: For web scraping (R).
 Facebook Marketplace: For providing the dataset of vehicle listings.
-vbnet
-Copier le code
+```vbnet
+
 
 You can copy and paste this into the `README.md` file in your repository. Let me know if you need further changes!
+```
