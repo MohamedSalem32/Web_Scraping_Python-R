@@ -9,7 +9,7 @@ This project is divided into two parts:
 1. **Data Collection**: This part involves web scraping using both Python and R to automate the process of collecting URLs of vehicle listings on Facebook Marketplace, which include images of Mauritanian license plates. The URLs are then used to download images.
 2. **Sophisticated Analysis**: In the second phase, the collected images can be analyzed for various machine learning or computer vision tasks, such as detecting the license plate numbers or classifying vehicle types.
 
-### Technologies Used
+## Technologies Used
 
 - **Python**
 - **R**
@@ -37,23 +37,21 @@ Ensure you have the following installed:
 ```bash
 pip install selenium beautifulsoup4 requests
 For R dependencies, install rvest:
-```
+
 R
 Copier le code
 install.packages("rvest")
 Steps to Run the Code
 Clone the repository:
 
-```bash
+bash
 Copier le code
 git clone https://github.com/MohamedSalem32/Web_Scraping_Python-R.git
-```
 Change directory to the project folder:
 
-```bash
+bash
 Copier le code
 cd Web_Scraping_Python-R
-```
 For Python:
 
 Open the web_scraping.py file and enter your Facebook login credentials:
@@ -94,12 +92,7 @@ Selenium: For automating web browsing.
 BeautifulSoup: For parsing HTML data (Python).
 rvest: For web scraping (R).
 Facebook Marketplace: For providing the dataset of vehicle listings.
-rust
+vbnet
 Copier le code
 
-This version includes both Python and R scripts for scraping and clearly explains the setup, dependencies, and instructions for both languages.
-
-
-
-
-
+You can copy and paste this into the `README.md` file in your repository. Let me know if you need further changes!
