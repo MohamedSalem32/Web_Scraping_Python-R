@@ -1,33 +1,40 @@
-Web Scraping for Mauritanian License Plates on Facebook Marketplace
+# Web Scraping for Mauritanian License Plates on Facebook Marketplace
+
 This project automates the collection of images of Mauritanian license plates from Facebook Marketplace using web scraping techniques. The main goal is to gather a dataset of unique images to be used for a vehicle-related competition or analysis.
 
-Project Overview
+## Project Overview
+
 This project is divided into two parts:
 
-Data Collection: This part involves web scraping using both Python and R to automate the process of collecting URLs of vehicle listings on Facebook Marketplace, which include images of Mauritanian license plates. The URLs are then used to download images.
-Sophisticated Analysis: In the second phase, the collected images can be analyzed for various machine learning or computer vision tasks, such as detecting the license plate numbers or classifying vehicle types.
-Technologies Used
-Python
-R
-Selenium (Python): For automating web browser interactions.
-BeautifulSoup (Python): For parsing HTML content.
-Requests (Python): For downloading images from URLs.
-rvest (R): For web scraping in R.
-Chrome WebDriver: To control the web browser.
-os: To manage directories and file paths.
-Setup Instructions
+1. **Data Collection**: This part involves web scraping using both Python and R to automate the process of collecting URLs of vehicle listings on Facebook Marketplace, which include images of Mauritanian license plates. The URLs are then used to download images.
+2. **Sophisticated Analysis**: In the second phase, the collected images can be analyzed for various machine learning or computer vision tasks, such as detecting the license plate numbers or classifying vehicle types.
+
+### Technologies Used
+
+- **Python**
+- **R**
+- **Selenium** (Python): For automating web browser interactions.
+- **BeautifulSoup** (Python): For parsing HTML content.
+- **Requests** (Python): For downloading images from URLs.
+- **rvest** (R): For web scraping in R.
+- **Chrome WebDriver**: To control the web browser.
+- **os**: To manage directories and file paths.
+
+## Setup Instructions
+
 Follow these steps to set up and run the web scraping code:
 
-Prerequisites
+### Prerequisites
+
 Ensure you have the following installed:
 
-Python 3.x
-Google Chrome
-ChromeDriver matching your Chrome version
-R
-Install the necessary Python packages using pip:
-bash
-Copier le code
+- Python 3.x
+- Google Chrome
+- ChromeDriver matching your Chrome version
+- R
+- Install the necessary Python packages using pip:
+
+```bash
 pip install selenium beautifulsoup4 requests
 For R dependencies, install rvest:
 
@@ -85,3 +92,12 @@ Selenium: For automating web browsing.
 BeautifulSoup: For parsing HTML data (Python).
 rvest: For web scraping (R).
 Facebook Marketplace: For providing the dataset of vehicle listings.
+rust
+Copier le code
+
+This version includes both Python and R scripts for scraping and clearly explains the setup, dependencies, and instructions for both languages.
+
+
+
+
+
