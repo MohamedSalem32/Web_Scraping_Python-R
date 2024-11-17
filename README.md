@@ -97,8 +97,4 @@ Acknowledgments
 - BeautifulSoup: For parsing HTML data (Python).
 - rvest: For web scraping (R).
 - Facebook Marketplace: For providing the dataset of vehicle listings.
-```vbnet
-
-
-You can copy and paste this into the `README.md` file in your repository. Let me know if you need further changes!
-```
+ 
