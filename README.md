@@ -84,16 +84,19 @@ Code Structure
 - README.md: This documentation file.
 
 Contributing
+
 Feel free to fork the repository and contribute by creating pull requests. If you encounter any issues or bugs, please open an issue in the repository.
 
 License
+
 This project is open-source and available under the MIT License.
 
 Acknowledgments
-Selenium: For automating web browsing.
-BeautifulSoup: For parsing HTML data (Python).
-rvest: For web scraping (R).
-Facebook Marketplace: For providing the dataset of vehicle listings.
+
+- Selenium: For automating web browsing.
+- BeautifulSoup: For parsing HTML data (Python).
+- rvest: For web scraping (R).
+- Facebook Marketplace: For providing the dataset of vehicle listings.
 ```vbnet
 
 
